@@ -1,28 +1,13 @@
 rm(list = ls())
-setwd("~/Desktop/MSBA DUC/6.5504/L2/Chapter 14")
-dir.exists("~/Desktop/MSBA DUC/6.5504/L2/Chapter 14")
-my_path<- '/Desktop/MSBA DUC/6.5504/L2/Chapter 14/BuckeyeCreek.xlsx'
-my_path <- '/Desktop/MSBA DUC/6.5504/L2/Chapter 14/BuckeyeCreek.xlsx'
-library(readxl)
-buckeyecreek <- read_excel(my_path)
 my_path <- '~/Desktop/MSBA DUC/6.5504/L2/Chapter 14/BuckeyeCreek.xlsx'
-library(readxl)
 library(readxl)
 buckeyecreek <- read_excel("BuckeyeCreek.xlsx")
 summary(buckeyecreek)
-descriptive_stats(buckeyecreek)
-plot(buckeyecreek$Population, buckeyecreek$`Season Pass Holders`,
-     xlab = "Population", ylab = "Season Pass Holders",
-     main = "Scatter Plot of Season Pass Holders vs. Population")
-linear_model <- lm(`Season Pass Holders` ~ Population, data = buckeyecreek)
-summary(linear_model)
-par(mfrow = c(2, 2))
-plot(linear_model)
-
 
 # Examine Correlation between variables (Multiple R in Excel)
 cor(buckeyecreek$Population, buckeyecreek$`Season Pass Holders`)
-
+summary(buckeyecreek$`Season Pass Holders`)
+summary(buckeyecreek)
 # Simple linear regression
 buckeyecreek_slr <- lm(`Season Pass Holders` ~ Population, data = buckeyecreek)
 buckeyecreek_slr$coefficients # coefficients
@@ -33,7 +18,7 @@ buckeyecreek %>% ggplot(aes(x = Population, y = `Season Pass Holders`)) + # coor
   geom_point() + # scatter plot
   geom_smooth(method = 'lm', se = TRUE) # abline with conf. interval (gray)
 
-#1. Compute descriptive statistics and construct a scatter diagram for the data. Discuss your findings.
+#Qs:1. Compute descriptive statistics and construct a scatter diagram for the data. Discuss your findings.
 
 #Ans: The following scatter diagram describe the relationship between number of season pass holders, 
 #given the total population of a zip code.
@@ -44,9 +29,11 @@ buckeyecreek %>% ggplot(aes(x = Population, y = `Season Pass Holders`)) + # coor
 #The population for a given zip code has much higher variability (SD=12639.5436) compared to season pass holder (SD=145.3776).
 
 
-# Section 2 ----
+# Qs: 2 ----
 
 # R Squared Value
+summary(buckeyecreek_slr)
+summary(buckeyecreek_slr)$r.squared
 summary(buckeyecreek_slr)$r.squared
 
 # Adjusted R Squared Value
@@ -56,7 +43,7 @@ summary(buckeyecreek_slr)$adj.r.squared
 #y=16.2584+0.0092x1
 #Where, x1 is population.
 
-# Section 3 ----
+# Qs: 3 ----
 
 # Complete regression analysis
 summary(buckeyecreek_slr)
@@ -68,7 +55,7 @@ predict (buckeyecreek_slr, data.frame(Population = 10), interval = "prediction",
 #There is significant relationship between the number of seasons pass holders and population, p<0.05. 
 #The estimated regression line provides a good fit, p<0.05.
 
-# Section 4 ----
+# Qs: 4 ----
 
 # Residual analysis (method 1)
 buckeyecreek$predicted <- fitted(buckeyecreek_slr)
@@ -98,7 +85,7 @@ buckeyecreek %>% ggplot(aes(sample = std_residuals)) +
   geom_qq() + 
   geom_qq_line()
 
-# Section 5 ----
+# Qs: 5 ----
 
 # Calculating Leverage (Hat Values)
 buckeyecreek$hat <- hatvalues(buckeyecreek_slr) #none greater than 6/10=0.6
@@ -122,5 +109,7 @@ buckeyecreek$cook <- cooks.distance(buckeyecreek_slr)
 plot(buckeyecreek_slr, which = 5) #none greater than 0.5
 # in this plot (leverage ~ std) we are looking for values lying outside dashed line
 
-#The marketing team can consider the regression line to predict number of season pass holder 
-#provided the population for a certain zip code is within the range of the given population.
+#Qs:6- The marketing team can consider the regression line to predict number of season pass holder 
+# provided the population for a certain zip code is within the range of the given population.
+#Qs:7- Average age of the population of might be useful to predict number of season pass holder for a certain zip code.
+
